@@ -136,7 +136,7 @@ chrony_install() {
 
     timedatectl set-ntp true
 
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         systemctl enable chronyd && systemctl restart chronyd
     else
         systemctl enable chrony && systemctl restart chrony
@@ -169,14 +169,14 @@ chrony_install() {
 dependency_install() {
     ${INS} install wget git lsof -y
 
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         ${INS} -y install crontabs
     else
         ${INS} -y install cron
     fi
     judge "安装 crontab"
 
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         touch /var/spool/cron/root && chmod 600 /var/spool/cron/root
         systemctl start crond && systemctl enable crond
     else
@@ -198,14 +198,14 @@ dependency_install() {
     ${INS} -y install curl
     judge "安装 curl"
 
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         ${INS} -y groupinstall "Development tools"
     else
         ${INS} -y install build-essential
     fi
     judge "编译工具包 安装"
 
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         ${INS} -y install pcre pcre-devel zlib-devel epel-release
     else
         ${INS} -y install libpcre3 libpcre3-dev zlib1g-dev dbus
@@ -219,7 +219,7 @@ dependency_install() {
 
     #    sed -i -r '/^HRNGDEVICE/d;/#HRNGDEVICE=\/dev\/null/a HRNGDEVICE=/dev/urandom' /etc/default/rng-tools
 
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         #       systemctl start rngd && systemctl enable rngd
         #       judge "rng-tools 启动"
         systemctl start haveged && systemctl enable haveged
@@ -242,7 +242,7 @@ basic_optimization() {
     echo '* hard nofile 65536' >>/etc/security/limits.conf
 
     # 关闭 Selinux
-    if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+    if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"]; then
         sed -i 's/^SELINUX=.*/SELINUX=disabled/' /etc/selinux/config
         setenforce 0
     fi
@@ -655,7 +655,7 @@ nginx_process_disabled() {
 acme_cron_update() {
     wget -N -P /usr/bin --no-check-certificate "https://raw.githubusercontent.com/wulabing/V2Ray_ws-tls_bash_onekey/dev/ssl_update.sh"
     if [[ $(crontab -l | grep -c "ssl_update.sh") -lt 1 ]]; then
-      if [[ "${ID}" == "centos" || "${ID}" == "almalinux"]]; then
+      if ["${ID}" == "centos"] ||[ "${ID}" == "almalinux"] then
           #        sed -i "/acme.sh/c 0 3 * * 0 \"/root/.acme.sh\"/acme.sh --cron --home \"/root/.acme.sh\" \
           #        &> /dev/null" /var/spool/cron/root
           sed -i "/acme.sh/c 0 3 * * 0 bash ${ssl_update_file}" /var/spool/cron/root
