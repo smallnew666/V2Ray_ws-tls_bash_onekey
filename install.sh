@@ -75,7 +75,7 @@ source '/etc/os-release'
 VERSION=$(echo "${VERSION}" | awk -F "[()]" '{print $2}')
 
 check_system() {
-    if [[ "${ID}" == "almalinux" && ${VERSION_ID} -ge 7 ]]; then
+    if [[ "${ID}" == "almalinux" ]]; then
         echo -e "${OK} ${GreenBG} 当前系统为 almalinux ${VERSION_ID} ${VERSION} ${Font}"
         INS="yum"
     elif [[ "${ID}" == "centos" && ${VERSION_ID} -ge 7 ]]; then
