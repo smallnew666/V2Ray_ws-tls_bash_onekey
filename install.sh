@@ -136,7 +136,7 @@ chrony_install() {
 
     timedatectl set-ntp true
 
-    if [[["${ID}" == "centos"]] || [[ "${ID}" == "almalinux"]]]; then
+    if [["${ID}" == "centos"]] || [[ "${ID}" == "almalinux"]]; then
         systemctl enable chronyd && systemctl restart chronyd
     else
         systemctl enable chrony && systemctl restart chrony
