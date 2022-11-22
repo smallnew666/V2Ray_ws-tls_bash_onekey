@@ -78,7 +78,7 @@ check_system() {
     if [[ "${ID}" == "almalinux" && ${VERSION_ID} -ge 7 ]]; then
         echo -e "${OK} ${GreenBG} 当前系统为 almalinux ${VERSION_ID} ${VERSION} ${Font}"
         INS="yum"
-    elif [[ "${ID}" == "centos" || "${ID}" == "almalinux" && ${VERSION_ID} -ge 7 ]]; then
+    elif [[ "${ID}" == "centos" && ${VERSION_ID} -ge 7 ]]; then
         echo -e "${OK} ${GreenBG} 当前系统为 Centos ${VERSION_ID} ${VERSION} ${Font}"
         INS="yum"
     elif [[ "${ID}" == "debian" && ${VERSION_ID} -ge 8 ]]; then
